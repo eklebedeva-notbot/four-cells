@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#151515">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Четыре клетки">
+  <meta name="description" content="Тихий монохромный тетрис. Семь фигур, четыре клетки, полные линии. Работает без интернета после сохранения на устройстве.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./style.css">
+  <title>Четыре клетки</title>
+</head>
+<body>
+<main class="app">
+  <header><div class="brand"><svg viewBox="0 0 30 22" aria-hidden="true"><path d="M11 1h8v8h-8zM1 11h8v8H1zM11 11h8v8h-8zM21 11h8v8h-8z"/></svg><h1>Четыре клетки</h1></div><button class="icon-button" id="help" aria-label="Как играть и установить">?</button></header>
+  <section class="stats" aria-label="Показатели игры"><div><span>Счёт</span><strong id="score">0</strong></div><div><span>Рекорд</span><strong id="record">0</strong></div><div><span>Линии</span><strong id="lines">0</strong></div><div><span>Уровень</span><strong id="level">1</strong></div></section>
+  <section class="play-area" aria-label="Тетрис">
+    <div class="board-wrap"><canvas id="board" width="300" height="600" role="img" aria-label="Игровое поле, 10 на 20 клеток"></canvas><div id="overlay" class="overlay"><h2 id="overlay-title">Четыре<br>клетки</h2><p id="overlay-text">Собирай полные линии</p><button id="overlay-action" class="primary">Начать игру</button></div></div>
+    <aside><div class="next"><span>Следующая</span><canvas id="next" width="100" height="80" role="img" aria-label="Следующая фигура"></canvas></div><div class="side-actions"><button id="pause" aria-label="Пауза" disabled>Пауза</button><button id="new-game">Заново</button></div><div class="quiet-note">7 фигур<br>без суеты</div></aside>
+  </section>
+  <section class="controls" aria-label="Управление"><div class="control-row"><button data-action="left" aria-label="Влево"><span>←</span></button><button data-action="rotate" aria-label="Повернуть"><span>↻</span></button><button data-action="right" aria-label="Вправо"><span>→</span></button></div><div class="control-row secondary"><button data-action="down" aria-label="Ускорить падение">↓ <span>Ускорить</span></button><button data-action="drop" aria-label="Сразу опустить фигуру">⤓ <span>Опустить</span></button></div></section>
+  <footer><span id="offline-status" role="status">Подготовка офлайн-режима…</span><button id="install-help">На главный экран</button></footer>
+</main>
+<dialog id="confirm"><form method="dialog"><h2>Начать заново?</h2><p>Текущая партия закончится.<br>Рекорд сохранится.</p><div class="dialog-buttons"><button value="cancel" autofocus>Отмена</button><button value="restart" class="primary">Начать</button></div></form></dialog>
+<dialog id="instructions"><h2>Четыре клетки</h2><p>Заполняй горизонтальные линии. Через каждые 10 линий скорость растёт.</p><p>Стрелки двигают фигуру, ↻ поворачивает её. «Ускорить» можно удерживать; «Опустить» сразу закрепляет фигуру внизу.</p><h3>Установить на iPhone</h3><ol><li>Открой эту страницу в Safari.</li><li>Нажми «Поделиться» → «На экран “Домой”». Если есть переключатель «Открывать как веб-приложение», включи его.</li><li>Открой игру с новой иконки при включённом интернете и дождись надписи «Готово без интернета».</li><li>Проверь запуск в авиарежиме.</li></ol><p class="note">Если iPhone удалит данные веб-приложения, потребуется снова открыть игру с интернетом. Рекорд хранится только на этом устройстве.</p><p class="note">На компьютере: ← → — движение, ↑ — поворот, ↓ — ускорение, пробел — сброс, Esc — пауза.</p><button id="close-help" class="primary">Понятно</button></dialog>
+<noscript>Для игры нужно включить JavaScript в настройках браузера.</noscript>
+<script type="module" src="./app.js"></script>
+</body>
+</html>

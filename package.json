@@ -1,0 +1,1 @@
+{"name":"four-cells","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test game.test.js","dev":"node serve.mjs"}}
