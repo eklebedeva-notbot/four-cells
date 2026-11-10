@@ -71,20 +71,20 @@ function canvasContext(canvas) {
   const rect=canvas.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,3);
   const w=Math.max(1,Math.round(rect.width*dpr)),h=Math.max(1,Math.round(rect.height*dpr));
   if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
-  const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);return{ctx,width:rect.width,height:rect.height};
+  const ctx=canvas.getContext('2d');ctx.setTransform(w/rect.width,0,0,h/rect.height,0,0);return{ctx,width:rect.width,height:rect.height};
 }
-function block(ctx,x,y,cell,active) {
-  const pad=Math.max(1,cell*.075);ctx.fillStyle=active?'#e8e8e8':'#a3a3a3';
-  ctx.fillRect(x+pad,y+pad,cell-pad*2,cell-pad*2);ctx.fillStyle=active?'#fff':'#c2c2c2';
-  ctx.fillRect(x+pad,y+pad,cell-pad*2,1);
+function block(ctx,x,y,cell,active,cellHeight=cell) {
+  const padX=Math.max(1,cell*.075),padY=Math.max(1,cellHeight*.075);ctx.fillStyle=active?'#e8e8e8':'#a3a3a3';
+  ctx.fillRect(x+padX,y+padY,cell-padX*2,cellHeight-padY*2);ctx.fillStyle=active?'#fff':'#c2c2c2';
+  ctx.fillRect(x+padX,y+padY,cell-padX*2,1);
 }
 function render() {
-  const {ctx,width,height}=canvasContext(board),cell=width/WIDTH;
+  const {ctx,width,height}=canvasContext(board),cell=width/WIDTH,rows=HEIGHT-HIDDEN,cellHeight=height/rows;
   ctx.fillStyle='#1a1a1a';ctx.fillRect(0,0,width,height);ctx.strokeStyle='#292929';ctx.lineWidth=.6;
   for(let x=1;x<WIDTH;x++){ctx.beginPath();ctx.moveTo(x*cell,0);ctx.lineTo(x*cell,height);ctx.stroke();}
-  for(let y=1;y<20;y++){ctx.beginPath();ctx.moveTo(0,y*cell);ctx.lineTo(width,y*cell);ctx.stroke();}
-  for(let y=HIDDEN;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++)if(game.board[y][x])block(ctx,x*cell,(y-HIDDEN)*cell,cell,false);
-  if(game.phase==='playing'||game.phase==='paused')for(const [dx,dy]of game.cells)if(game.y+dy>=HIDDEN)block(ctx,(game.x+dx)*cell,(game.y+dy-HIDDEN)*cell,cell,true);
+  for(let y=1;y<rows;y++){ctx.beginPath();ctx.moveTo(0,y*cellHeight);ctx.lineTo(width,y*cellHeight);ctx.stroke();}
+  for(let y=HIDDEN;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++)if(game.board[y][x])block(ctx,x*cell,(y-HIDDEN)*cellHeight,cell,false,cellHeight);
+  if(game.phase==='playing'||game.phase==='paused')for(const [dx,dy]of game.cells)if(game.y+dy>=HIDDEN)block(ctx,(game.x+dx)*cell,(game.y+dy-HIDDEN)*cellHeight,cell,true,cellHeight);
   const p=canvasContext(next);p.ctx.clearRect(0,0,p.width,p.height);
   if(game.phase!=='ready') {
     const cells=SHAPES[game.next][0],minX=Math.min(...cells.map(c=>c[0])),minY=Math.min(...cells.map(c=>c[1]));
